@@ -14,6 +14,7 @@ https://github.com/suitepotato/trpgEnginePy
   + attack method
   + defence method
   + isFainted method
+  + support custom stats
 - create **Monster** Class
   + support looting item
 - create **Player** Class
