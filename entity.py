@@ -1,16 +1,11 @@
 import math
 
 # TODO
-# 엔티티 클래스
-#	1. 메소드
-#		- giveDamage : 객체가 피해량 받는 함수
-#		- giveHeal : 객체가 회복량 받는 함수
-#		- giveExp : 객체가 경험치 받는 함수
 # 몬스터 클래스
 # 플레이어 클래스
 
 class Entity:
-	def __init__(self, name, level, exp, maxHp, hp, generalAttack, generalDefence):
+	def __init__(self, name, level, maxHp, hp, generalAttack, generalDefence, magicalAttack, magicalDefence, skillPoint):
 		self.name = name
 		self.level = level
 		self.exp = exp
@@ -18,6 +13,9 @@ class Entity:
 		self.hp = hp
 		self.generalAttack = generalAttack
 		self.generalDefence = generalDefence
+		self.magicalAttack = magicalAttack
+		self.magicalDefence = magicalDefence
+		self.skillPoint = skillPoint
 	
 	def getEntityData(self):
 		print("==================================================================")
@@ -25,26 +23,31 @@ class Entity:
 		print("Hp : " + self.hp + "/" + self.maxHp)
 		print("Exp : " + self.exp)
 		print("ATK : " + self.generalAttack)
+		print("DEF : " + self.generalDefence)
+		print("MTK : " + self.magicalAttack)
+		print("MEF : " + self.magicalDefence)
+		print("SP : " + self.skillPoint)
 		print("==================================================================")
 
 	def isFainted(self):
 		(self.hp <=0) if True else False
-
-#	def useGeneralAttack(self, victim):
-#		damage = math.round( ( self.generalAttack * ( 1 - ( victim.generalDefence / ( 100 + victim.generalDefence ) ) ) ) )
-#		if (victim.hp < damage):
-#			victim.hp = 0
-#		else:
-#			victim.hp -= damage
-
-#	def useGeneralDefence(self):
-#		self.extraGeneralDefence += ( 0.5 * self.generalDefence )
-#		self.extraDefenceCount = 1
-
-#	def useAttackDamage(self):
-#		return self.generalAttack
-
-#	def getDamage(self, rawDamage):
 		
-	
-#	def useDefence(self):
+	def giveGeneralDamage(self, rawDamage):
+		damage = math.round( ( rawDamage * ( 1 - ( self.generalDefence / ( 100 + self.generalDefence ) ) ) ) )
+		if (self.hp < damage):
+			self.hp = 0
+		else:
+			self.hp -= damage
+
+	def giveMagicalDamage(self, rawDamage):
+		damage = math.round( ( rawDamage * ( 1 - ( self.magicalDefence / ( 100 + self.magicalDefence ) ) ) ) )
+		if (self.hp < damage):
+			self.hp = 0
+		else:
+			self.hp -= damage
+
+	def giveHeal(self, healRate):
+		if (self.maxHp < ( self.hp + healRate ) ):
+			self.hp = self.maxHp
+		else:
+			self.hp += healRate
